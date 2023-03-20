@@ -437,8 +437,6 @@ Change the line that says:
 --etcd-servers=https://127.0.0.1:2379
 ```
 
-_Note, this next step is what I referred to earlier. We can add multiple etcd addresses here, I've had varrying levels of success with this model. A managed LB to frontend the etcd nodes would probably be better._
-
 To (replace with your IPs):
 
 ```console
