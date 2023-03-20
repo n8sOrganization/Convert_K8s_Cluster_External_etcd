@@ -188,11 +188,9 @@ spec:
 
 Notice that each kube-apiserver config uses `--etcd-servers=https://127.0.0.1:2379`. They only use the etcd instance collocated with them.
 
-In stacked node, it makes some sense to have kube-apiserver only communicate with its collocated etcd instance. This will improve performance on read/write. And if the etcd service is gone on that node, we could assume the kube-apiserver would be as well. But there is a scenario where that instance of etcd was missing, but the kube-apiserver persists. In that case, it would be better to have that instance of kube-apiserver aware of all etcd nodes. 
+In stacked node, it makes some sense to have kube-apiserver only communicate with its collocated etcd instance. This will improve performance on read/write. And if the etcd service is gone on that node, we could assume the kube-apiserver would be as well. But there is a scenario where that instance of etcd was missing, but the kube-apiserver persists. In that case, it would be better to have that instance of kube-apiserver aware of all etcd nodes. Kube-apiserver supports etcd client-side load balancing, so we can provide multiple etcd server addresses to the config.
 
-Kube-apiserver is suppoosed to use etcd client-side load balancing, so that we can provide multiple etcd server addresses to the config. I've had mized results, a managed LB in front of the etcd cluster would probably be better.
-
-Let's take a look at the current etcd cluster member list (replace etcd-cp-1-dev with the name of one of your etcd pods / replace 192.168.130.4 with one of the IPs of your control plane nodes):
+Let's take a look at the current etcd cluster member list (replace `etcd-cp-1-dev` with the name of one of your etcd pods / replace `192.168.130.4` with one of the IPs of your control plane nodes):
 
 ```bash
 kubectl exec -ti -n kube-system etcd-cp-1-dev -- etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key --endpoints=https://192.168.130.4:2379 member list -w table
