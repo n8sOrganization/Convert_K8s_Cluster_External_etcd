@@ -504,8 +504,6 @@ sudo etcdctl --cacert=/etc/ssl/etcd/certificate/ca.crt --cert=/etc/ssl/etcd/cert
 
 From each control plane node:
 
-1. Delete the static pod manifest for etcd
-
 ```bash
 sudo rm /etc/kubernetes/manifests/etcd.yaml
 ```
@@ -516,4 +514,46 @@ Once all manifests are deleted, list pods to verify they're gone and the apiserv
 kubectl get po -n kube-system
 ```
 
+## Reconfigure Kubeadm to understand that etcd is configured as external
+
+1. Edit kubeadm-config ConfigMap
+
+Change
+
+```console
+data:
+  ClusterConfiguration: |
+    apiServer:
+      extraArgs:
+        authorization-mode: Node,RBAC
+      timeoutForControlPlane: 4m0s
+    apiVersion: kubeadm.k8s.io/v1beta3
+    certificatesDir: /etc/kubernetes/pki
+    clusterName: kubernetes
+    controlPlaneEndpoint: 192.168.50.1:6443
+    controllerManager: {}
+    dns: {}
+    etcd:
+      local:
+        dataDir: /var/lib/etcd
+  ```
+  
+  To:
+  
+  ```console
+  data:
+  ClusterConfiguration: |
+    apiServer:
+      extraArgs:
+        authorization-mode: Node,RBAC
+      timeoutForControlPlane: 4m0s
+    apiVersion: kubeadm.k8s.io/v1beta3
+    certificatesDir: /etc/kubernetes/pki
+    clusterName: kubernetes
+    controlPlaneEndpoint: 192.168.50.1:6443
+    controllerManager: {}
+    dns: {}
+    etcd: external
+ ```
+ 
 ## That's it!
