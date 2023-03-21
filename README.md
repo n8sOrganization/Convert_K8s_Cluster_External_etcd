@@ -553,7 +553,15 @@ data:
     controlPlaneEndpoint: 192.168.50.1:6443
     controllerManager: {}
     dns: {}
-    etcd: external
+    etcd:
+      external:
+        endpoints:
+          - https://ETCD_0_IP:2379 # change ETCD_0_IP appropriately
+          - https://ETCD_1_IP:2379 # change ETCD_1_IP appropriately
+          - https://ETCD_2_IP:2379 # change ETCD_2_IP appropriately
+        caFile: /etc/kubernetes/pki/etcd/ca.crt
+        certFile: /etc/kubernetes/pki/apiserver-etcd-client.crt
+        keyFile: /etc/kubernetes/pki/apiserver-etcd-client.key
  ```
  
 ## That's it!
