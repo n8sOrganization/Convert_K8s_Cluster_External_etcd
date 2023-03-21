@@ -516,7 +516,7 @@ kubectl get po -n kube-system
 
 ## Reconfigure Kubeadm to understand that etcd is configured as external
 
-1. On each control plane node, edit kubeadm-config ConfigMap
+1. Edit kubeadm-config ConfigMap
 
 Change
 
