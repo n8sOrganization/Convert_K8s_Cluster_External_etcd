@@ -449,7 +449,9 @@ Save and close the file. Then check your kube-apiserver
 kubectl get po -A
 ```
 
-I've found that there is a brief period where controller-manager and kube-vip restart, it might take a few cycles before the api-server is accessible again.
+Alternativley, you could place a non-terminsating load blancer in front of the etcd nodes and supply just the LB listening address. This simplifies config changes related to the etcd cluster.
+
+_Note: I've found that there is a brief period where controller-manager and kube-vip restart, it might take a few cycles before the api-server is accessible again._
 
 ## Remove stacked nodes
 
@@ -563,5 +565,7 @@ data:
         certFile: /etc/kubernetes/pki/apiserver-etcd-client.crt
         keyFile: /etc/kubernetes/pki/apiserver-etcd-client.key
  ```
+ 
+Alternativley, you could place a non-terminsating load blancer in front of the etcd nodes and supply just the LB listening address in the endpoints list. This simplifies config changes related to the etcd cluster.
  
 ## That's it!
