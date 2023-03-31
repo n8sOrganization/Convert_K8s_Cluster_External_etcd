@@ -566,6 +566,6 @@ data:
         keyFile: /etc/kubernetes/pki/apiserver-etcd-client.key
  ```
  
-Alternativley, you could place a non-terminsating load blancer in front of the etcd nodes and supply just the LB listening address in the endpoints list. This simplifies config changes related to the etcd cluster.
+Alternativley, you could place a load balancer in front of the etcd nodes and supply just the LB listening address in the endpoints list. This simplifies config changes related to the etcd cluster, but gRPC docs susggest this would lower performance.
  
 ## That's it!
